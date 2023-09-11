@@ -1,0 +1,6 @@
+data/com.github.vyogami.shulin.desktop.in
+data/com.github.vyogami.shulin.appdata.xml.in
+data/com.github.vyogami.shulin.gschema.xml
+src/main.py
+src/window.py
+src/window.ui
