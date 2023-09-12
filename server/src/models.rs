@@ -4,5 +4,5 @@ use std::path::PathBuf;
 #[derive(Deserialize)]
 pub struct File {
     pub path: PathBuf,
-    pub mode: u32,
+    pub mode: Option<u32>,
 }
