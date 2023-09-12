@@ -1,6 +1,8 @@
 pub mod models;
-
+use std::os::unix::fs::PermissionsExt;
 use std::fs::Permissions;
+use std::fs::metadata;
+
 
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use models::File;
@@ -17,7 +19,7 @@ async fn set_perms(file_payload: web::Json<File>) -> impl Responder {
         Err(_) => return HttpResponse::NotFound(),
     };
 
-    use std::os::unix::fs::PermissionsExt;
+    
     if let Err(_) = file
         .set_permissions(Permissions::from_mode(file_payload.mode))
         .await
@@ -28,6 +30,23 @@ async fn set_perms(file_payload: web::Json<File>) -> impl Responder {
     HttpResponse::Ok()
 }
 
+#[get("/get_perms")]
+async fn get_perms(file_payload: web::Json<File>)->Result<HttpResponse,actix_web::error::Error>{
+    
+    
+    
+    match metadata(&file_payload.path) {
+        Ok(metadata) => {
+            let perms = metadata.permissions().mode();
+            Ok(HttpResponse::Ok().json(perms))
+        },
+        Err(err) => {
+            eprintln!("Error: {}", err);
+            Ok(HttpResponse::NotFound().finish())
+        }
+    }
+    
+}
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| App::new().service(ping))
