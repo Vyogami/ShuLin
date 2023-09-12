@@ -502,6 +502,8 @@ name = "girik"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "serde",
+ "tokio",
 ]
 
 [[package]]
