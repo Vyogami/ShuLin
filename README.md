@@ -1,4 +1,8 @@
-# ShuLin - Ubuntu Hardening
+<p align="center">
+    <img width="120" src="docs/public/images/trident-logo.png"/>
+    <br>
+    <h1 align="center"> ShuLin - Ubuntu Hardening </h1>
+</p>
 
 ## Problem Statement SIH1446
 
