@@ -1,15 +1,7 @@
 pub mod models;
-use std::os::unix::fs::PermissionsExt;
-use std::fs::Permissions;
-use std::fs::metadata;
+pub mod routes;
 
-
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-use models::File;
-
-mod routes{
-    pub mod file_permissions;
-}
+use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 
 #[get("/ping")]
 async fn ping() -> impl Responder {
@@ -18,8 +10,13 @@ async fn ping() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(ping))
-        .bind(("127.0.0.1", 5432))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .service(ping)
+            .service(routes::file_permissions::get_perms)
+            .service(routes::file_permissions::set_perms)
+    })
+    .bind(("127.0.0.1", 5432))?
+    .run()
+    .await
 }

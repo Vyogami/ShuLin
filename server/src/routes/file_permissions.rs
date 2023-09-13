@@ -1,17 +1,9 @@
-
-
-use std::os::unix::fs::PermissionsExt;
-use std::fs::Permissions;
 use std::fs::metadata;
+use std::fs::Permissions;
+use std::os::unix::fs::PermissionsExt;
 
-
-use actix_web::{get, post, web, HttpResponse, Responder};
 use crate::models::File;
-
-#[get("/ping")]
-async fn ping() -> impl Responder {
-    HttpResponse::Ok().body("pong")
-}
+use actix_web::{get, post, web, HttpResponse, Responder};
 
 #[post("/set-perms")]
 async fn set_perms(file_payload: web::Json<File>) -> impl Responder {
@@ -20,20 +12,12 @@ async fn set_perms(file_payload: web::Json<File>) -> impl Responder {
         Err(_) => return HttpResponse::NotFound(),
     };
 
-    
     if let Some(mode) = file_payload.mode {
-        if let Err(_) = file
-            .set_permissions(Permissions::from_mode(mode))
-            .await
-        {
+        if let Err(_) = file.set_permissions(Permissions::from_mode(mode)).await {
             return HttpResponse::BadRequest();
         }
     } else {
-        
-        if let Err(_) = file
-            .set_permissions(Permissions::from_mode(0o400))
-            .await
-        {
+        if let Err(_) = file.set_permissions(Permissions::from_mode(0o400)).await {
             return HttpResponse::BadRequest();
         }
     }
@@ -42,19 +26,15 @@ async fn set_perms(file_payload: web::Json<File>) -> impl Responder {
 }
 
 #[get("/get_perms")]
-async fn get_perms(file_payload: web::Json<File>)->Result<HttpResponse,actix_web::error::Error>{
-    
-    
-    
+async fn get_perms(file_payload: web::Json<File>) -> Result<HttpResponse, actix_web::error::Error> {
     match metadata(&file_payload.path) {
         Ok(metadata) => {
             let perms = metadata.permissions().mode();
             Ok(HttpResponse::Ok().json(perms))
-        },
+        }
         Err(err) => {
             eprintln!("Error: {}", err);
             Ok(HttpResponse::NotFound().finish())
         }
     }
-    
 }
