@@ -1,0 +1,42 @@
+
+## How mode is calculated
+
+`rwx` => 4+ 2 + 1 = 7
+`r--` => 4 + 0 + 0 = 4
+`r-x` => 4 + 0 + 1 = 5
+
+So, if a file has permissions like so
+`rwx r-x r-x`
+
+- The mode is `755`
+- The 3 parts correspond to root, group and user permissions respectively 
+
+This will be used in very single route mentioned in this file
+
+## GET get-perms
+{{server}}/get-perms
+
+- Route to get the permissions of a file
+- Returns the mode of said file
+- 404 if file does not exist or the server is not running on superuser privileges 
+
+```json
+{
+	path: "/home/blon/somefile.txt"
+}
+```
+
+## POST set-perms
+{{server}}/set-perms
+
+- Route to set the permissions of a file
+- Expects a uint mode
+- If default mode is not provided, `400` is assumed
+- `404 NOT FOUND `if file does not exist or the server is not running on superuser privileges 
+
+```json
+{
+	path: "/home/blon/somefile.txt"
+	mode: 755
+}
+```
