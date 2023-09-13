@@ -28,11 +28,6 @@ export default {
   project: {
     link: "https://github.com/vyogami/shulin",
   },
-  themeSwitch: {
-    component() {
-      return () => null;
-    },
-  },
 
   project: {
     link: "https://github.com/vyogami/shulin",
