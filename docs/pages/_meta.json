@@ -1,7 +1,17 @@
 {
   "index": "Introduction",
   "hardening": "Hardening",
-  "client": "Client",
-  "server": "Server"
+  "-- Documentation": {
+    "type": "separator",
+    "title": "Documentation"
+  },
+  "client": {
+    "title": "Client",
+    "overview": "Overview"
+  },
+  "server": {
+    "title": "Server",
+    "file-permissions": "File Permissions"
+  }
 
 }
