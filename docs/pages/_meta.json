@@ -1,3 +1,7 @@
 {
-  "index": "Introduction"
+  "index": "Introduction",
+  "hardening": "Hardening",
+  "client": "Client",
+  "server": "Server"
+
 }

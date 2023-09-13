@@ -1,0 +1,60 @@
+# Now what is hardening?
+
+Since [Linux is not a secure OS](https://madaidans-insecurities.github.io/linux.html) we have to increase its security and that is called hardening.
+
+System hardening is the process of securing a computer system by reducing its vulnerabilities and strengthening its defenses against potential threats and attacks. It involves implementing a series of security measures and configurations and reducing the attack surface.
+
+## Some of the hardening measures listed by [Madaidan](https://madaidans-insecurities.github.io/guides/linux-hardening.html)
+
+- **Kernel hardening:** Strengthening the Linux kernel's security by applying patches, reducing attack surfaces, and configuring security features like SELinux or AppArmor.
+
+  - Kernel modules
+  - change the Linux kernel i.e recompile it and install it on the cost of performance
+  - https://www.timesys.com/security/securing-your-linux-configuration-kernel-hardening/
+  - https://www.kicksecure.com/wiki/Hardened-kernel
+  - kernel integrity subsystem
+
+- **Mandatory access control:** MAC systems give fine-grained control over what programs can access. This means that your browser won't have access to your entire home directory or similar. (SELinux >>> Apparmor).
+
+- **Sandboxing:** Isolating applications or processes from the rest of the system to limit potential damage if they are compromised.
+
+- **Hardened memory allocator:** Using memory allocation techniques that reduce the risk of memory-related vulnerabilities like buffer overflows.
+
+- **Hardened compilation flags:** Compiling software with security-focused compiler flags to reduce vulnerabilities and improve code robustness.
+
+- **Memory-safe languages:** Choosing programs written in programming languages like Rust or Ada that inherently provide memory safety, reducing the risk of memory-related vulnerabilities.
+
+- **The root account:** Restricting the use of the root (superuser) account to essential tasks to minimize the risk of accidental or malicious system changes.
+
+- **Firewalls:** Configuring firewalls to control incoming and outgoing network traffic to protect against unauthorized access and threats. (Fail2safe - Venkatesh's suggestion)
+
+- **Identifiers:** Ensuring unique user and group identifiers to control access permissions accurately.
+
+- **File permissions:** Setting appropriate permissions on files and directories to restrict access to authorized users and groups.
+
+- **Core dumps:** Controlling core dumps to prevent the exposure of sensitive information in the event of program crashes.
+
+- **Swap:** Managing swap space securely to avoid exposing sensitive data.
+
+- **PAM (Pluggable Authentication Module):** Implementing flexible authentication and password policies.
+
+- **Microcode updates:** Keeping CPU microcode updated to address hardware vulnerabilities.
+
+- **IPv6 privacy extensions:** Enabling privacy extensions for IPv6 addresses to enhance network security or we can disable IPv6 entirely if the organization needs it.
+
+- **Partitioning and mount options:** Properly partitioning and configuring mount options to improve security and isolate data.
+
+- **Entropy:**
+
+  - **Additional entropy sources:** Incorporating additional sources of randomness to improve cryptographic security.
+  - **RDRAND:** Using the RDRAND instruction for hardware-based random number generation.
+
+- **Editing files as root:** Exercising caution when editing system configuration files as the root user to avoid unintentional changes.
+
+- **Intrusion detection:** (Suricata, Snort) Security systems that monitor network traffic and system behavior in real-time to detect and respond to potential threats and attacks."
+
+- **Distribution-specific hardening:** Implementing security measures specific to [Ubuntu](https://wiki.ubuntu.com/Security/).
+
+- **Physical security:** Protecting physical access to servers and systems to prevent unauthorized tampering.
+
+- **Best practices:** Adhering to established security best practices, including regular updates, strong password policies, and security awareness training. (Documentation and well-structured guidelines)
