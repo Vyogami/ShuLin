@@ -1,3 +1,4 @@
+# File Permissions
 
 ## How mode is calculated
 
@@ -14,7 +15,10 @@ So, if a file has permissions like so
 This will be used in very single route mentioned in this file
 
 ## GET get-perms
-{{server}}/get-perms
+
+```md
+ {{server}}/get-perms
+```
 
 - Route to get the permissions of a file
 - Returns the mode of said file
@@ -27,7 +31,10 @@ This will be used in very single route mentioned in this file
 ```
 
 ## POST set-perms
-{{server}}/set-perms
+
+```md
+ {{server}}/set-perms
+```
 
 - Route to set the permissions of a file
 - Expects a uint mode
