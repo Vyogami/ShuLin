@@ -182,6 +182,11 @@ System hardening is the process of securing a computer system by reducing its vu
 
 ## Tech stack
 
+### Architecture
+
+![architecture](./assets/architecture-dark.svg#gh-light-mode-only)
+![architecture](./assets/architecture-dark.svg#gh-dark-mode-only)
+
 ### Backend
 
 - We are decoupling the backend and frontend i.e. we won't be using Tauri rather there will be a server binary written in rust for performance and security which will communicate with frontend using REST API
