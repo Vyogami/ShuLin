@@ -1,7 +1,6 @@
 use crate::models::File;
 use actix_web::{get, post, web, HttpResponse, Responder};
 use log::warn;
-use std::fmt::format;
 use std::fs::Permissions;
 use std::os::unix::fs::PermissionsExt;
 
