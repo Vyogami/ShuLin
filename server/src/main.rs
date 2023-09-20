@@ -20,6 +20,8 @@ async fn main() -> std::io::Result<()> {
             .service(ping)
             .service(routes::file_permissions::get_perms)
             .service(routes::file_permissions::set_perms)
+            .service(routes::sys_manage::ssh)
+            .service(routes::sys_manage::usb)
     })
     .bind(("127.0.0.1", 8081))?
     .run()
