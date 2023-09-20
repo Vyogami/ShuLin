@@ -1,40 +1,48 @@
-use std::fs::metadata;
-use std::fs::Permissions;
-use std::os::unix::fs::PermissionsExt;
-
 use crate::models::File;
 use actix_web::{get, post, web, HttpResponse, Responder};
+use log::warn;
+use std::fs::Permissions;
+use std::os::unix::fs::PermissionsExt;
 
 #[post("/set-perms")]
 async fn set_perms(file_payload: web::Json<File>) -> impl Responder {
     let file = match tokio::fs::File::open(&file_payload.path).await {
         Ok(f) => f,
-        Err(_) => return HttpResponse::NotFound(),
+        Err(e) => {
+            warn!(
+                "Error while opening file {}: {}",
+                file_payload.path.display(),
+                e.to_string()
+            );
+            return HttpResponse::NotFound().finish();
+        }
     };
 
-    if let Some(mode) = file_payload.mode {
-        if let Err(_) = file.set_permissions(Permissions::from_mode(mode)).await {
-            return HttpResponse::BadRequest();
-        }
-    } else {
-        if let Err(_) = file.set_permissions(Permissions::from_mode(0o400)).await {
-            return HttpResponse::BadRequest();
-        }
+    if let Err(e) = file
+        .set_permissions(Permissions::from_mode(file_payload.mode.unwrap_or(0o400)))
+        .await
+    {
+        warn!("Error while setting permissions: {}", e);
+        return HttpResponse::BadRequest().json(e.to_string());
     }
 
-    HttpResponse::Ok()
+    HttpResponse::Ok().finish()
 }
 
-#[get("/get_perms")]
+#[get("/get-perms")]
 async fn get_perms(file_payload: web::Json<File>) -> Result<HttpResponse, actix_web::error::Error> {
-    match metadata(&file_payload.path) {
+    match std::fs::metadata(&file_payload.path) {
         Ok(metadata) => {
             let perms = metadata.permissions().mode();
             Ok(HttpResponse::Ok().json(perms))
         }
         Err(err) => {
-            eprintln!("Error: {}", err);
-            Ok(HttpResponse::NotFound().finish())
+            warn!(
+                "Error while getting permissions for {}: {}",
+                file_payload.path.to_str().unwrap_or_default(),
+                err
+            );
+            Ok(HttpResponse::NotFound().json(err.to_string()))
         }
     }
 }
