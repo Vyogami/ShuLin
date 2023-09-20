@@ -1,6 +1,7 @@
 use crate::models::File;
 use actix_web::{get, post, web, HttpResponse, Responder};
 use log::warn;
+use std::fmt::format;
 use std::fs::Permissions;
 use std::os::unix::fs::PermissionsExt;
 
@@ -34,7 +35,8 @@ async fn get_perms(file_payload: web::Json<File>) -> Result<HttpResponse, actix_
     match std::fs::metadata(&file_payload.path) {
         Ok(metadata) => {
             let perms = metadata.permissions().mode();
-            Ok(HttpResponse::Ok().json(perms))
+            let perms_octal = format!("{:o}", perms).parse::<u32>().unwrap();
+            Ok(HttpResponse::Ok().json(perms_octal))
         }
         Err(err) => {
             warn!(
