@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 echo "Uninstalling"
-sudo rm -rf /usr/lib/python3.10/site-packages/shulin
+sudo rm -rf /usr/lib/python3.11/site-packages/shulin
 sudo rm -rf /usr/share/shulin/
 sudo rm /usr/bin/shulin 
 echo "Rebuilding"
