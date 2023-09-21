@@ -12,9 +12,10 @@ class MainWindow(Adw.ApplicationWindow):
     flap = Gtk.Template.Child()
     stack = Gtk.Template.Child()
     stack_switch = Gtk.Template.Child()
-    # Page3 widgets
-    page3_box = Gtk.Template.Child()
-    page3_pref_grp1 = Gtk.Template.Child()
+    
+    # Page1 widgets
+    page1_box = Gtk.Template.Child()
+    page1_grp1 = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         Adw.ApplicationWindow.__init__(self, **kwargs)
@@ -26,14 +27,16 @@ class MainWindow(Adw.ApplicationWindow):
         self.create_action('preferences', self.menu_handler)
         self.create_action('about', self.menu_handler)
         self.create_action('quit', self.menu_handler)
-        self.add_page3()
+        self.add_page1()
         self.css_provider = self.load_css()
         self.add_custom_styling(self.main_content)
 
-    def add_page3(self):
-        for x in range(2):
-            row = get_action_row(x+1)
-            self.page3_pref_grp1.add(row)
+    def add_page1(self):
+        row_ssh = get_action_row("Secure socket shell(SSH)", "SSH is a network protocol for operating network services securely over an unsecured network.", "find-location-symbolic")
+        self.page1_grp1.add(row_ssh)
+        
+        row_usb = get_action_row("USB", "USB is an industry standard that establishes specifications for cables and connectors and protocols for connection, communication and power supply between computers, peripheral devices and other computers.", "usb-symbolic")
+        self.page1_grp1.add(row_usb)
 
     @Gtk.Template.Callback()
     def on_color_switch(self, *args):
