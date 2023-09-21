@@ -20,7 +20,7 @@ async fn ssh(ssh_payload: web::Json<Toggle>) -> impl Responder {
     };
 
     let mut cmd = Command::new("systemctl");
-    cmd.args(&[cmd_str, "ssh"]);
+    cmd.args(&[cmd_str, "sshd"]);
 
     if let Err(e) = cmd.output().await {
         warn!("Could not run command systemctl {} ssh: {}", cmd_str, e);
@@ -29,7 +29,7 @@ async fn ssh(ssh_payload: web::Json<Toggle>) -> impl Responder {
 
     if !ssh_payload.toggle {
         let mut disable_cmd = Command::new("systemctl");
-        cmd.args(&["disable", "ssh"]);
+        cmd.args(&["disable", "sshd"]);
 
         if let Err(e) = disable_cmd.output().await {
             warn!("Could not run command systemctl disable ssh: {}", e);
