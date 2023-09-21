@@ -1,20 +1,15 @@
 #!@PYTHON@
 
-
 import os
 import sys
 import signal
-import locale
 import gettext
 
 VERSION = '@VERSION@'
-pkgdatadir = '@pkgdatadir@'
-localedir = '@localedir@'
+pkgdatadir = '@DATA_DIR@'
+localedir = '@LOCALE_DIR@'
 
-sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-locale.bindtextdomain('shulin', localedir)
-locale.textdomain('shulin')
 gettext.install('shulin', localedir)
 
 if __name__ == '__main__':
@@ -24,5 +19,6 @@ if __name__ == '__main__':
     resource = Gio.Resource.load(os.path.join(pkgdatadir, 'shulin.gresource'))
     resource._register()
 
-    from shulin import main
-    sys.exit(main.main(VERSION))
+    from shulin.application import main
+    sys.exit(main(VERSION))
+

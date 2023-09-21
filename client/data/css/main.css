@@ -1,0 +1,19 @@
+/* Main CSS for application */
+
+.lbl_viewswitch {
+    font-weight: bold;
+    margin: 10px;
+    font-size: 1.2em;
+}
+
+.lbl_center {
+    color: tomato;
+    background-color: lightgray;
+    padding: 20px;
+}
+
+.lbl_resize {
+    color: white;
+    background-color: orchid;
+    padding: 20px;
+}

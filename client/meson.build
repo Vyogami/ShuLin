@@ -1,20 +1,43 @@
-project('shulin',
-          version: '0.1.0',
-    meson_version: '>= 0.62.0',
-  default_options: [ 'warning_level=2', 'werror=false', ],
+project('shulin',  
+          version: '0.2.0',
+    meson_version: '>= 0.50.0'
 )
 
-i18n = import('i18n')
-gnome = import('gnome')
+python = import('python')
+project_id = 'com.github.vyogami.shulin'
+
+message('Looking for dependencies')
+py_installation = python.find_installation('python3')
+if not py_installation.found()
+    error('No valid python3 binary found')
+else
+    message('Found python3 binary')
+endif
+
+python_dir = join_paths(get_option('prefix'), py_installation.get_install_dir())
+DATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
+bindir = join_paths(get_option('prefix'), get_option('bindir'))
+
+conf = configuration_data()
+conf.set('DATA_DIR', DATA_DIR)
+conf.set('PYTHON_DIR', python_dir)
+conf.set('VERSION', meson.project_version())
+conf.set('APPID', project_id)
+conf.set('PYTHON', python.find_installation('python3').path())
+conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('localedir')))
 
 
+install_subdir(
+  'shulin',
+  install_dir: python_dir
+)
+
+message('Preparing bin file')
+configure_file(
+  input: 'shulin.in',
+  output: 'shulin',
+  configuration: conf,
+  install_dir: bindir
+)
 
 subdir('data')
-subdir('src')
-subdir('po')
-
-gnome.post_install(
-     glib_compile_schemas: true,
-    gtk_update_icon_cache: true,
-  update_desktop_database: true,
-)
