@@ -14,9 +14,9 @@ async fn sys_update() -> impl Responder {
 #[post("/ssh")]
 async fn ssh(ssh_payload: web::Json<Toggle>) -> impl Responder {
     let cmd_str = if ssh_payload.toggle {
-        "enable --now"
+        "enable"
     } else {
-        "stop"
+        "disable"
     };
 
     let mut cmd = Command::new("systemctl");
