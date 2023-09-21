@@ -14,11 +14,11 @@ async fn sys_update() -> impl Responder {
 async fn ssh(ssh_payload: web::Json<Toggle>) -> impl Responder {
     let cmd_str = if ssh_payload.toggle { "start" } else { "stop" };
 
-    let mut cmd = Command::new(cmd_str);
-    cmd.arg("ssh");
+    let mut cmd = Command::new("systemctl");
+    cmd.args(&[cmd_str, "ssh"]);
 
     if let Err(e) = cmd.output().await {
-        warn!("Could not run command `{}` ssh: {}", cmd_str, e);
+        warn!("Could not run command systemctl {} ssh: {}", cmd_str, e);
         return HttpResponse::InternalServerError().body(e.to_string());
     }
 
