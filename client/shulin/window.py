@@ -3,6 +3,20 @@ from gi.repository import Gtk, Gio, Adw, GLib
 from shulin.const import Constants
 from shulin.functions import get_action_row
 
+import requests
+import json
+
+def post_request(url, body, label="API"):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.post(url, headers=headers, data=body)
+    if response.status_code == 200:
+        print(f"{label} request successful")
+    else:
+        print(f"{label} request failed")
+
+
 
 @Gtk.Template(resource_path=f'{Constants.PATHID}/ui/main.ui')
 class MainWindow(Adw.ApplicationWindow):
@@ -30,12 +44,37 @@ class MainWindow(Adw.ApplicationWindow):
         self.add_page1()
         self.css_provider = self.load_css()
         self.add_custom_styling(self.main_content)
+        
 
     def add_page1(self):
-        row_ssh = get_action_row("Secure socket shell(SSH)", "SSH is a network protocol for operating network services securely over an unsecured network.", "find-location-symbolic")
+        def ssh_switch_callback(switch, gparam):
+            url = f"{Constants.BASE_URL}/ssh"
+            if switch.get_active():
+                data = {
+                    "toggle": True
+                }
+            else:
+                data = {
+                    "toggle": False
+                }
+            body = json.dumps(data)
+            post_request(url, body)
+        row_ssh = get_action_row("Secure socket shell(SSH)", "SSH is a network protocol that provides a secure way to access and manage network services over an unsecured network, ensuring data confidentiality and integrity.", "find-location-symbolic", switch_callback=ssh_switch_callback)
         self.page1_grp1.add(row_ssh)
-        
-        row_usb = get_action_row("USB", "USB is an industry standard that establishes specifications for cables and connectors and protocols for connection, communication and power supply between computers, peripheral devices and other computers.", "usb-symbolic")
+
+        def usb_switch_callback(switch, gparam):
+            url = f"{Constants.BASE_URL}/usb"
+            if switch.get_active():
+                data = {
+                    "toggle": True
+                }
+            else:
+                data = {
+                    "toggle": False
+                }
+            body = json.dumps(data)
+            post_request(url, body)
+        row_usb = get_action_row("USB Device Control", "USB (Universal Serial Bus) Device Control allows you to manage and secure USB ports on your system, regulating the connection of external USB devices.", "usb-symbolic", switch_callback=usb_switch_callback)
         self.page1_grp1.add(row_usb)
 
     @Gtk.Template.Callback()
