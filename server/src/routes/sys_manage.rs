@@ -13,28 +13,19 @@ async fn sys_update() -> impl Responder {
 
 #[post("/ssh")]
 async fn ssh(ssh_payload: web::Json<Toggle>) -> impl Responder {
-    let cmd_str = if ssh_payload.toggle {
-        "enable"
-    } else {
-        "disable"
-    };
-
     let mut cmd = Command::new("systemctl");
-    cmd.args(&[cmd_str, "sshd"]);
 
-    if let Err(e) = cmd.output().await {
-        warn!("Could not run command systemctl {} ssh: {}", cmd_str, e);
-        return HttpResponse::InternalServerError().body(e.to_string());
+    if ssh_payload.toggle {
+        cmd.args(["enable", "--now"]);
+    } else {
+        cmd.args(["disable", "--now"]);
     }
 
-    if !ssh_payload.toggle {
-        let mut disable_cmd = Command::new("systemctl");
-        cmd.args(&["disable", "sshd"]);
+    cmd.arg("sshd");
 
-        if let Err(e) = disable_cmd.output().await {
-            warn!("Could not run command systemctl disable ssh: {}", e);
-            return HttpResponse::InternalServerError().body(e.to_string());
-        }
+    if let Err(e) = cmd.output().await {
+        warn!("Could not run command systemctl for ssh: {}", e);
+        return HttpResponse::InternalServerError().body(e.to_string());
     }
 
     HttpResponse::Ok().finish()
