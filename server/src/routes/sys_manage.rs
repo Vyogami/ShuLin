@@ -65,3 +65,50 @@ async fn usb(usb_payload: web::Json<Toggle>) -> impl Responder {
 
     HttpResponse::Ok().finish()
 }
+
+#[post("/tor")]
+async fn disable_tor(tor_payload: web::Json<Toggle>) -> impl Responder {
+    let mut cmd = Command::new("systemctl");
+
+    if tor_payload.toggle {
+        cmd.args(["disable", "--now"]);
+    } else {
+        cmd.args(["enable", "--now"]);
+    }
+
+    cmd.arg("tor");
+
+    if let Err(e) = cmd.output().await {
+        warn!("Could not run command systemctl for Tor: {}", e);
+        return HttpResponse::InternalServerError().body(e.to_string());
+    }
+
+    HttpResponse::Ok().finish()
+}
+
+#[post("/shutdown")]
+async fn shutdown() -> impl Responder {
+    let mut cmd = Command::new("shutdown");
+
+    cmd.args(["-h", "now"]);
+
+    if let Err(e) = cmd.output().await {
+        warn!("Could not run command 'shutdown -h now' : {}", e);
+        return HttpResponse::InternalServerError().body(e.to_string());
+    }
+
+    HttpResponse::Ok().finish()
+}
+#[post("/reboot")]
+async fn reboot() -> impl Responder {
+    let mut cmd = Command::new("shutdown");
+
+    cmd.args(["-r", "now"]);
+
+    if let Err(e) = cmd.output().await {
+        warn!("Could not run command 'shutdown -r now' : {}", e);
+        return HttpResponse::InternalServerError().body(e.to_string());
+    }
+
+    HttpResponse::Ok().finish()
+}
