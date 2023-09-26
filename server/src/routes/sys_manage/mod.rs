@@ -2,6 +2,7 @@ pub mod power;
 pub mod ssh;
 pub mod tor;
 pub mod usb;
+pub mod util;
 
 use actix_web::{post, HttpResponse, Responder};
 
