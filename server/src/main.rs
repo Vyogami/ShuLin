@@ -20,9 +20,17 @@ async fn main() -> std::io::Result<()> {
             .service(ping)
             .service(
                 web::scope("/sys")
-                    .service(web::scope("/ssh").service(routes::sys_manage::ssh::toggle))
+                    .service(
+                        web::scope("/ssh")
+                            .service(routes::sys_manage::ssh::status)
+                            .service(routes::sys_manage::ssh::toggle),
+                    )
                     .service(web::scope("/usb").service(routes::sys_manage::usb::toggle))
-                    .service(web::scope("/tor").service(routes::sys_manage::tor::toggle)),
+                    .service(
+                        web::scope("/tor")
+                            .service(routes::sys_manage::tor::status)
+                            .service(routes::sys_manage::tor::toggle),
+                    ),
             )
             .service(
                 web::scope("/file-permissions")
