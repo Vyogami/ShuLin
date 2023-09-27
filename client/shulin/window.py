@@ -58,7 +58,7 @@ class MainWindow(Adw.ApplicationWindow):
                     "toggle": False
                 }
             body = json.dumps(data)
-            post_request(url, body)
+            post_request(url, body, label="/ssh")
         row_ssh = get_action_row("Secure socket shell(SSH)", "SSH is a network protocol that provides a secure way to access and manage network services over an unsecured network, ensuring data confidentiality and integrity.", "find-location-symbolic", switch_callback=ssh_switch_callback)
         self.page1_grp1.add(row_ssh)
         
@@ -73,7 +73,7 @@ class MainWindow(Adw.ApplicationWindow):
                     "toggle": False
                 }
             body = json.dumps(data)
-            post_request(url, body)
+            post_request(url, body, label="/tor")
         row_tor = get_action_row("Tor - Onion Routing Project", "Tor is a network anonymity tool that allows users to browse the web anonymously and access websites without revealing their identity or location.", "tor-symbolic", switch_callback=tor_switch_callback)
         self.page1_grp1.add(row_tor)
 
@@ -89,7 +89,7 @@ class MainWindow(Adw.ApplicationWindow):
                     "toggle": False
                 }
             body = json.dumps(data)
-            post_request(url, body)
+            post_request(url, body, label="/usb")
         row_usb = get_action_row("USB Device Control", "USB (Universal Serial Bus) Device Control allows you to manage and secure USB ports on your system, regulating the connection of external USB devices.", "usb-symbolic", switch_callback=usb_switch_callback)
         self.page1_grp1.add(row_usb)
 
