@@ -25,6 +25,11 @@ async fn main() -> std::io::Result<()> {
                             .service(routes::sys_manage::ssh::status)
                             .service(routes::sys_manage::ssh::toggle),
                     )
+                    .service(
+                        web::scope("/power")
+                            .service(routes::sys_manage::power::shutdown)
+                            .service(routes::sys_manage::power::reboot),
+                    )
                     .service(web::scope("/usb").service(routes::sys_manage::usb::toggle))
                     .service(
                         web::scope("/tor")
