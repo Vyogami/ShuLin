@@ -48,7 +48,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def add_page1(self):
         def ssh_switch_callback(switch, gparam):
-            url = f"{Constants.BASE_URL}/ssh"
+            url = f"{Constants.BASE_URL}/sys/ssh/toggle"
             if switch.get_active():
                 data = {
                     "toggle": True
@@ -63,7 +63,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.page1_grp1.add(row_ssh)
 
         def usb_switch_callback(switch, gparam):
-            url = f"{Constants.BASE_URL}/usb"
+            url = f"{Constants.BASE_URL}/sys/usb/toggle"
             if switch.get_active():
                 data = {
                     "toggle": True
