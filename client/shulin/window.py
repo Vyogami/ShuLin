@@ -61,6 +61,22 @@ class MainWindow(Adw.ApplicationWindow):
             post_request(url, body)
         row_ssh = get_action_row("Secure socket shell(SSH)", "SSH is a network protocol that provides a secure way to access and manage network services over an unsecured network, ensuring data confidentiality and integrity.", "find-location-symbolic", switch_callback=ssh_switch_callback)
         self.page1_grp1.add(row_ssh)
+        
+        def tor_switch_callback(switch, gparam):
+            url = f"{Constants.BASE_URL}/sys/tor/toggle"
+            if switch.get_active():
+                data = {
+                    "toggle": True
+                }
+            else:
+                data = {
+                    "toggle": False
+                }
+            body = json.dumps(data)
+            post_request(url, body)
+        row_tor = get_action_row("Tor - Onion Routing Project", "Tor is a network anonymity tool that allows users to browse the web anonymously and access websites without revealing their identity or location.", "tor-symbolic", switch_callback=tor_switch_callback)
+        self.page1_grp1.add(row_tor)
+
 
         def usb_switch_callback(switch, gparam):
             url = f"{Constants.BASE_URL}/sys/usb/toggle"
