@@ -13,11 +13,11 @@ async fn ping() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::init_from_env(Env::default().default_filter_or("info"));
+    env_logger::init_from_env(Env::default().default_filter_or("debug"));
 
     HttpServer::new(|| {
         App::new()
-            .wrap(Logger::new("%t \"%r\" %s {{%P}} %T"))
+            .wrap(Logger::new("%t \"%r\" %s %T"))
             .service(ping)
             .service(
                 web::scope("/sys")
