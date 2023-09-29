@@ -4,6 +4,9 @@ use actix_web::{
 };
 use derive_more::{Display, Error};
 
+pub type Result<T> = actix_web::Result<T, Error>;
+pub type ResponseResult = actix_web::Result<HttpResponse, Error>;
+
 #[non_exhaustive]
 #[derive(Debug, Display, Error)]
 pub enum Error {
@@ -34,36 +37,36 @@ pub enum Error {
 
 pub trait ToServiceError {
     type OkVariant;
-    fn map_service(self, unit: &'static str) -> Result<Self::OkVariant, Error>;
+    fn map_service(self, unit: &'static str) -> std::result::Result<Self::OkVariant, Error>;
 }
 
-impl<T> ToServiceError for Result<T, std::io::Error> {
+impl<T> ToServiceError for std::result::Result<T, std::io::Error> {
     type OkVariant = T;
-    fn map_service(self, unit: &'static str) -> Result<Self::OkVariant, Error> {
+    fn map_service(self, unit: &'static str) -> std::result::Result<Self::OkVariant, Error> {
         self.map_err(|e| Error::ServiceError { e, unit })
     }
 }
 
 pub trait ToModuleError {
     type OkVariant;
-    fn map_module(self, module: &'static str) -> Result<Self::OkVariant, Error>;
+    fn map_module(self, module: &'static str) -> std::result::Result<Self::OkVariant, Error>;
 }
 
-impl<T> ToModuleError for Result<T, std::io::Error> {
+impl<T> ToModuleError for std::result::Result<T, std::io::Error> {
     type OkVariant = T;
-    fn map_module(self, module: &'static str) -> Result<Self::OkVariant, Error> {
+    fn map_module(self, module: &'static str) -> std::result::Result<Self::OkVariant, Error> {
         self.map_err(|e| Error::ModuleError { e, module })
     }
 }
 
 pub trait ToCommandError {
     type OkVariant;
-    fn map_command(self, cmd: &'static str) -> Result<Self::OkVariant, Error>;
+    fn map_command(self, cmd: &'static str) -> std::result::Result<Self::OkVariant, Error>;
 }
 
-impl<T> ToCommandError for Result<T, std::io::Error> {
+impl<T> ToCommandError for std::result::Result<T, std::io::Error> {
     type OkVariant = T;
-    fn map_command(self, cmd: &'static str) -> Result<Self::OkVariant, Error> {
+    fn map_command(self, cmd: &'static str) -> std::result::Result<Self::OkVariant, Error> {
         self.map_err(|e| Error::CommandFailed { e, cmd })
     }
 }
