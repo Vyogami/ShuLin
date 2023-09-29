@@ -22,6 +22,9 @@ pub enum Error {
         module: &'static str,
     },
 
+    #[display(fmt = "Could not open file '{}': {}", file, e)]
+    FileIOError { e: std::io::Error, file: String },
+
     #[display(fmt = "Command '{}' did not run successfully: {}", cmd, e)]
     CommandFailed {
         e: std::io::Error,
@@ -29,7 +32,7 @@ pub enum Error {
     },
 
     #[display(fmt = "Command output contained non UTF8 characters.")]
-    BadCommandOutput(std::string::FromUtf8Error),
+    BadCommandOutput(std::str::Utf8Error),
 
     #[display(fmt = "Unkown error occured: {}", message)]
     Other { message: &'static str },
@@ -44,6 +47,21 @@ impl<T> ToServiceError for std::result::Result<T, std::io::Error> {
     type OkVariant = T;
     fn map_service(self, unit: &'static str) -> std::result::Result<Self::OkVariant, Error> {
         self.map_err(|e| Error::ServiceError { e, unit })
+    }
+}
+
+pub trait ToFileIOError {
+    type OkVariant;
+    fn map_fileio(self, file: impl AsRef<str>) -> std::result::Result<Self::OkVariant, Error>;
+}
+
+impl<T> ToFileIOError for std::result::Result<T, std::io::Error> {
+    type OkVariant = T;
+    fn map_fileio(self, file: impl AsRef<str>) -> std::result::Result<Self::OkVariant, Error> {
+        self.map_err(|e| Error::FileIOError {
+            e,
+            file: file.as_ref().to_string(),
+        })
     }
 }
 
@@ -83,8 +101,8 @@ impl actix_web::error::ResponseError for Error {
     }
 }
 
-impl From<std::string::FromUtf8Error> for Error {
-    fn from(value: std::string::FromUtf8Error) -> Self {
+impl From<std::str::Utf8Error> for Error {
+    fn from(value: std::str::Utf8Error) -> Self {
         Error::BadCommandOutput(value)
     }
 }

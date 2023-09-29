@@ -1,25 +1,22 @@
 use super::util;
+use crate::error::{ResponseResult, ToCommandError, ToServiceError};
 use crate::models::Toggle;
-use actix_web::{get, post, web, HttpResponse, Responder};
-use log::warn;
+use actix_web::{get, post, web, HttpResponse};
 
 #[post("/toggle")]
-async fn toggle(tor_payload: web::Json<Toggle>) -> impl Responder {
-    if let Err(e) = util::toggle_service("tor", tor_payload.toggle).await {
-        warn!("Could not run command systemctl for tor: {}", e);
-        HttpResponse::InternalServerError().body(e.to_string())
-    } else {
-        HttpResponse::Ok().finish()
-    }
+async fn toggle(ssh_payload: web::Json<Toggle>) -> ResponseResult {
+    util::toggle_service("tor", ssh_payload.toggle)
+        .await
+        .map_service("tor")?;
+
+    Ok(HttpResponse::Ok().into())
 }
 
 #[get("/status")]
-async fn status() -> impl Responder {
-    match util::is_active("tor").await {
-        Ok(b) => HttpResponse::Ok().body(b.to_string()),
-        Err(e) => {
-            warn!("Error in systemctl is-active tor: {}", e);
-            HttpResponse::InternalServerError().body(e.to_string())
-        }
-    }
+async fn status() -> ResponseResult {
+    let is_active = util::is_active("tor")
+        .await
+        .map_command("systemctl is-active")?;
+
+    Ok(HttpResponse::Ok().body(is_active.to_string()))
 }
