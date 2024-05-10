@@ -12,22 +12,6 @@
 
 **Organization:** National Technical Research Organization(NTRO)
 
-## Naamkaran - ShuLin(शुलिन)
-
-ShuLin originated from Sanskrit which means "The one who wields the trident" so we can use a trident in our designs and logo but i've tried and it doesn't look good though my artistic skills are questionable!
-
-btw there is a Chinese district named Shulin :O
-
-## What is NTRO
-
-NTRO, the National Technical Research Organization, is India's specialized technical intelligence agency.
-
-- Technical Intelligence Collection
-- Satellite and Aerospace Surveillance
-- Cybersecurity and Cyber Intelligence
-- Electronic Signals Intelligence (ELINT)
-- Communication Interception and Monitoring
-
 **Organizational needs they might have:**
 Since NTRO is an intelligence agency they will adhere to strict security policies and regulatory compliance, I mean they should! I have listed some of the possible needs.
 
@@ -102,15 +86,6 @@ System hardening is the process of securing a computer system by reducing its vu
 
 - **Best practices:** Adhering to established security best practices, including regular updates, strong password policies, and security awareness training. (Documentation and well-structured guidelines)
 
-## Now what can we consider implementing for the internal hackathon!?
-
-- File permissions
-  - We can have a dashboard to toggle all the permissions and suggest the recommended configuration
-  - We can create a file dialog from which the user can choose a folder/file to make it secure, by file dialog i mean frontend will send the directory path to the backend similar to what uploading files on the website does.
-- Encryption of files/directories.
-- Remove Apparmor and install SELinux
-
-> configuring SELinux will be the hardest and tedious task
 
 - Firewall(Fail2ban)
 - Identifiers(User access management)
@@ -125,77 +100,12 @@ System hardening is the process of securing a computer system by reducing its vu
 
 - Closing hidden ports.
 
-## Some insights from Venkatesh
-
-> **Some clarifications:**
->
-> We will have to prepare 2 ppts i.e one with official [SIH format](https://www.sih.gov.in/letters/Idea-Presentation-Format-SIH2023-College.pptx) and one for show casing our project in internal hackathon(there is no limit of slides or format)
->
-> I'll refer to former as `SPOC ppt` and later as `Internal ppt`
-
-- We can to include as much data as possible in those 2 slides of SPOC ppt
-
-> "Jitna fek sakte ho utna feko utna do slides me"
-
-- Try to include catchy words in those slides even if we won't include them in the final project 'cause no one will review your ppt after screening round
-- SPOC ppt is just supposed to get us past the screening round
-- Let's assume we have cleared the screening round then forget about PPTs from there onwards
-- After clearing the screening round we will be invited to the `Nodal Center` for 36 hours hackathon in which we would need to create the project from scratch(theoretically) but no one does that and even judges know. So Judges will suggest so many major changes and they'll judge us based on how effectively we implement them!
-- We need to figure out solutions to all the edge cases as judges ask very weird questions
-
-> **Venkatesh's story time:**
->
-> Their project was related to [KIOSK for Aadhar correction](https://cdn.discordapp.com/attachments/1150112553775677491/1150112604354781295/sih22.pdf)
->
-> **Judge:** "Imagine bande ki ungli kat gyi toh fir biometric kaise karoge?"
-> **Venkatesh:** We can use face biometric
-> **Judge:** "Usko face bhi disfigure ho gya hai accident me fir kya karoge?"
->
-> They cna ask questions similar to these, So we will need to pay extra attention to edge cases @Manav will be perfect for this job!
-
-- So venkatesh's team faced a lot of problem staying awake for 36 hours straight
-- About the GUI unhardening the system, so they have asked us to build the GUI plus its for the specific organizational need of NTRO workstations so that shouldn't be a problem.
-
-## Let's come to the structure of SIH in detail
-
-- First will be internal hackathon @13th September, 12:30 PM in E3-G14
-  - We have direct competition from Ammar's team
-  - There will be 35 Teams sent from Amity, Noida's SPOC of which 5 will be on the waiting list
-- After we are selected in the internal hackathon, SIH will mail us the credentials for the SIH portal and we will need to upload the SPOC ppt over there in pdf format with a summary and other relevant documents(no one will read these "other relevant documents)
-- After the selection in the screening round, we will be invited to the nodal center and the 36-hour hackathon will begin.
-- The accommodation will be provided by SIH but the quality depends on the college i.e. Nodal center
-
-> Apparently venkatesh's nodal center was chefs kiss
-
-- In that 36 hours hackathon, we will need to implement changes suggested by judges upon invigilation
-- There will be three rounds of invigilation i.e. one in the morning of day 1, then another in the night and a third will be in the afternoon of day 2
-- All the teams competing for the same problem will be in the same room/lab so anything we discuss over there will be public
-
-> **Story time:**
->
-> Venkatesh ki team ke sath aisa hua tha, they had a feature of web portal in the first round of invigilation and jab tak third round aya vo sari teams ne implement kar liya tha
-
-## Facilities provided by SIH
-
-- They will reimburse sleeper class tickets up to 2k per person
-- Accommodation will be provided by them i.e. hostel for boys and girls, quality depends upon the college
-
 ## Tech stack
 
 ### Architecture
 
 ![architecture](./assets/architecture-dark.svg#gh-light-mode-only)
 ![architecture](./assets/architecture-dark.svg#gh-dark-mode-only)
-
-### Backend
-
-- We are decoupling the backend and frontend i.e. we won't be using Tauri rather there will be a server binary written in rust for performance and security which will communicate with frontend using REST API
-- @Priyanshu and @Manav will be developing it for now!
-- We will need to showcase them backend for the internal hackathon with a UI mockup
-
-### Some references for backend
-
-- @Priyanshu add krde
 
 ### Frontend
 
@@ -215,38 +125,6 @@ System hardening is the process of securing a computer system by reducing its vu
   - [Glade documentation](https://help.gnome.org/users/glade/stable/)
   - [blog explining Cambalache](https://blogs.gnome.org/xjuan/)
 - [Python + libadwaita demo app](https://github.com/timlau/adw_pydemo)
-
-## Presentation
-
-### SPOC Presentation
-
-- We will have to strictly use this [template](https://www.sih.gov.in/letters/Idea-Presentation-Format-SIH2023-College.pptx).
-- Two slides are just for problem statement and team information
-- rest 2 slides will be used, try to include as much data as possible
-- Take reference from [Venkatesh's ppt](https://cdn.discordapp.com/attachments/1150112553775677491/1150112604354781295/sih22.pdf)
-- Try to include architecture design using draw.io.
-- Include all the tech stack used. For eg, if we are using nextjs then mention nextjs, reactjs, js (this is just an example, we are not using Nextjs)
-
-### Internal Presentation
-
-- there is no limit on the number of slides so we can go berserk!
-- @Shambhavi will prepare this!
-
-## Work load distribution
-
-### Till internal hackathon
-
-- Backend: @Priyanshu, @Manav
-- UI Mockup: @Shivam
-- Presentation: @Shambhavi
-
-### Afterwards
-
-- Backend: @Priyanshu, @Manav, @Shivam
-- UI Mockup: @Shivam, @Manav, @Shambhavi
-- Frontend: @Shambhavi, @Tanishq, @Jigyasa, @Shivam
-  
-> @Everyone try to get familiar with the respective technologies in the mean time(#Cringe)
 
 ## References
 
